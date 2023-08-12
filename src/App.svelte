@@ -52,20 +52,23 @@
 
 </script>
 
+<div class="sidebar">
+  Sidebar <br>
+
+  <ul>
+    {#each $listOfCompareStuff as compareStuff}
+      <li on:click={() => selectCurrentCompare(compareStuff)}
+          class:isActive={compareStuff.id === currentSelected?.id}>
+        {compareStuff.label}
+      </li>
+    {/each}
+  </ul>
+
+  <button on:click={addNew}>Add new</button>
+</div>
+
 <main>
-  <div>
-    Sidebar <br>
 
-    <ul>
-      {#each $listOfCompareStuff as compareStuff}
-        <li on:click={() => selectCurrentCompare(compareStuff)}>
-          {compareStuff.label}
-        </li>
-        {/each}
-    </ul>
-
-    <button on:click={addNew}>Add new</button>
-  </div>
   {#if currentSelected}
   <div>
     <h2>
@@ -79,3 +82,31 @@
     {/if}
 
 </main>
+
+<style lang="scss">
+
+
+  .sidebar {
+    background: #2a2a2a;
+    min-width: 200px;
+
+    ul {
+      list-style-type: none;
+      margin: 1rem 0 1rem;
+      padding: 0;
+
+      li {
+        text-align: start;
+        cursor: pointer;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+
+        &:hover, &.isActive {
+          background: #ffffff47;
+        }
+      }
+    }
+  }
+
+
+</style>

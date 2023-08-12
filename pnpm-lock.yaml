@@ -22,12 +22,15 @@ devDependencies:
   '@tsconfig/svelte':
     specifier: 5.0.0
     version: 5.0.0
+  sass:
+    specifier: ^1.65.1
+    version: 1.65.1
   svelte:
     specifier: 4.1.2
     version: 4.1.2
   svelte-check:
     specifier: 3.4.6
-    version: 3.4.6(svelte@4.1.2)
+    version: 3.4.6(sass@1.65.1)(svelte@4.1.2)
   tslib:
     specifier: 2.6.1
     version: 2.6.1
@@ -36,7 +39,7 @@ devDependencies:
     version: 5.1.6
   vite:
     specifier: 4.4.9
-    version: 4.4.9
+    version: 4.4.9(sass@1.65.1)
 
 packages:
 
@@ -308,7 +311,7 @@ packages:
       '@sveltejs/vite-plugin-svelte': 2.4.4(svelte@4.1.2)(vite@4.4.9)
       debug: 4.3.4
       svelte: 4.1.2
-      vite: 4.4.9
+      vite: 4.4.9(sass@1.65.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -327,7 +330,7 @@ packages:
       magic-string: 0.30.2
       svelte: 4.1.2
       svelte-hmr: 0.15.3(svelte@4.1.2)
-      vite: 4.4.9
+      vite: 4.4.9(sass@1.65.1)
       vitefu: 0.2.4(vite@4.4.9)
     transitivePeerDependencies:
       - supports-color
@@ -568,6 +571,10 @@ packages:
   /immediate@3.0.6:
     resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
     dev: false
+
+  /immutable@4.3.2:
+    resolution: {integrity: sha512-oGXzbEDem9OOpDWZu88jGiYCvIsLHMvGw+8OXlpsvTFvIQplQbjg1B1cvKg8f7Hoch6+NGjpPsH1Fr+Mc2D1aA==}
+    dev: true
 
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
@@ -824,6 +831,16 @@ packages:
       rimraf: 2.7.1
     dev: true
 
+  /sass@1.65.1:
+    resolution: {integrity: sha512-9DINwtHmA41SEd36eVPQ9BJKpn7eKDQmUHmpI0y5Zv2Rcorrh0zS+cFrt050hdNbmmCNKTW3hV5mWfuegNRsEA==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      immutable: 4.3.2
+      source-map-js: 1.0.2
+    dev: true
+
   /sorcery@0.11.0:
     resolution: {integrity: sha512-J69LQ22xrQB1cIFJhPfgtLuI6BpWRiWu1Y3vSsIwK/eAScqJxd/+CJlUuHQRdX2C9NGFamq+KqNywGgaThwfHw==}
     hasBin: true
@@ -846,7 +863,7 @@ packages:
       min-indent: 1.0.1
     dev: true
 
-  /svelte-check@3.4.6(svelte@4.1.2):
+  /svelte-check@3.4.6(sass@1.65.1)(svelte@4.1.2):
     resolution: {integrity: sha512-OBlY8866Zh1zHQTkBMPS6psPi7o2umTUyj6JWm4SacnIHXpWFm658pG32m3dKvKFL49V4ntAkfFHKo4ztH07og==}
     hasBin: true
     peerDependencies:
@@ -859,7 +876,7 @@ packages:
       picocolors: 1.0.0
       sade: 1.8.1
       svelte: 4.1.2
-      svelte-preprocess: 5.0.4(svelte@4.1.2)(typescript@5.1.6)
+      svelte-preprocess: 5.0.4(sass@1.65.1)(svelte@4.1.2)(typescript@5.1.6)
       typescript: 5.1.6
     transitivePeerDependencies:
       - '@babel/core'
@@ -882,7 +899,7 @@ packages:
       svelte: 4.1.2
     dev: true
 
-  /svelte-preprocess@5.0.4(svelte@4.1.2)(typescript@5.1.6):
+  /svelte-preprocess@5.0.4(sass@1.65.1)(svelte@4.1.2)(typescript@5.1.6):
     resolution: {integrity: sha512-ABia2QegosxOGsVlsSBJvoWeXy1wUKSfF7SWJdTjLAbx/Y3SrVevvvbFNQqrSJw89+lNSsM58SipmZJ5SRi5iw==}
     engines: {node: '>= 14.10.0'}
     requiresBuild: true
@@ -923,6 +940,7 @@ packages:
       '@types/pug': 2.0.6
       detect-indent: 6.1.0
       magic-string: 0.27.0
+      sass: 1.65.1
       sorcery: 0.11.0
       strip-indent: 3.0.0
       svelte: 4.1.2
@@ -965,7 +983,7 @@ packages:
     hasBin: true
     dev: true
 
-  /vite@4.4.9:
+  /vite@4.4.9(sass@1.65.1):
     resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -996,6 +1014,7 @@ packages:
       esbuild: 0.18.20
       postcss: 8.4.27
       rollup: 3.27.2
+      sass: 1.65.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -1008,7 +1027,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.4.9
+      vite: 4.4.9(sass@1.65.1)
     dev: true
 
   /wrappy@1.0.2:
