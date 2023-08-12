@@ -108,5 +108,8 @@
     }
   }
 
+  main {
+    overflow: auto;
+  }
 
 </style>

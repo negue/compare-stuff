@@ -14,7 +14,7 @@
 </script>
 <table on:pointerleave={() => currentHighlightedColumn = null}>
     <tr>
-        <td></td>
+        <th>&nbsp;</th>
         {#each columns as column (column.id)}
         <th on:pointerenter={() => {currentHighlightedColumn = column.id}}
             class:isHovered={column.id === currentHighlightedColumn}>
@@ -22,15 +22,15 @@
                            on:update={(newData) => {tableContextState.editColumn(column.id, newData.detail)}} />
         </th>
         {/each}
-        <td>
+        <th>
             <button on:click={() => tableContextState.addColumn()}>New Column</button>
-        </td>
+        </th>
     </tr>
 
     {#each rows as row (row.id)}
 
     <tr>
-        <td>
+        <td on:pointerenter={() => {currentHighlightedColumn = null}}>
             <LabelEditable data={row.label}
                            on:update={(newData) => tableContextState.editRow(row.id, newData.detail)} />
         </td>
@@ -53,13 +53,52 @@
 </table>
 
 <style lang="scss">
+  table {
+    table-layout: fixed;
+    background: var(--app-background)
+  }
+
+  table, th, td {
+    border-collapse: collapse;
+  }
+
     tr {
+      th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: var(--app-background);
+
+        &:first-child {
+          z-index: 3;
+          top: 0;
+          left: 0;
+        }
+      }
+
+
+
+      td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background: var(--app-background)
+      }
+
       &:hover {
         background: #ffffff47;
+
+        td:first-child {
+          background: #616161;
+        }
       }
     }
 
     .isHovered {
       background: #ffffff47;
+    }
+    th.isHovered {
+
+      background: #616161;
     }
 </style>
