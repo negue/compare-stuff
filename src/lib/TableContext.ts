@@ -1,14 +1,22 @@
+export interface Orderable {
+
+  order: number;
+}
+
+export interface TableColumn extends Orderable{
+  id: string;
+  label: string
+}
+
+export interface TableRow extends Orderable{
+  id: string;
+  label: string
+}
+
+
 export interface TableContext {
-  columns: {
-    id: string;
-    order: number;
-    label: string
-  }[];
-  rows: {
-    id: string;
-    order: number;
-    label: string
-  }[];
+  columns: TableColumn[];
+  rows: TableRow[];
   cells: {
     [key: string /** combined of row_id+column_id */ ]: string
   }

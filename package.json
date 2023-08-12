@@ -12,7 +12,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "2.4.4",
     "@tsconfig/svelte": "5.0.0",
-    "sass": "^1.65.1",
+    "sass": "1.65.1",
     "svelte": "4.1.2",
     "svelte-check": "3.4.6",
     "tslib": "2.6.1",
@@ -20,8 +20,11 @@
     "vite": "4.4.9"
   },
   "dependencies": {
-    "localforage": "^1.10.0",
+    "@svelteuidev/composables": "0.14.0",
+    "@svelteuidev/core": "0.14.0",
+    "localforage": "1.10.0",
     "nanoid": "4.0.2",
-    "remeda": "1.24.0"
+    "remeda": "1.24.0",
+    "radix-icons-svelte": "1.2.1"
   }
 }

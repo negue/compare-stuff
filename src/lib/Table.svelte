@@ -2,15 +2,30 @@
     import * as R from 'remeda'
     import type { TableContextState } from "./TableContextState";
     import LabelEditable from "./LabelEditable.svelte";
+    import { ActionIcon, Divider, Menu, Text } from '@svelteuidev/core';
+    import { Trash, DragHandleDots2, PinLeft, PinRight, PinTop, PinBottom, Plus } from 'radix-icons-svelte';
 
     export let tableContextState: TableContextState;
 
     let currentHighlightedColumn: string| null = null;
 
+
     // https://stackoverflow.com/a/66490611
 
     $: columns = R.sortBy($tableContextState.columns, c => c.order);
     $: rows = R.sortBy($tableContextState.rows, r => r.order);
+
+    function askRemoveColumn(columnId: string) {
+      if (window.confirm('Do you want to remove this column?')) {
+        tableContextState.removeColumn(columnId);
+      }
+    }
+
+    function askRemoveRow(rowId: string) {
+      if (window.confirm('Do you want to remove this row?')) {
+        tableContextState.removeRow(rowId);
+      }
+    }
 </script>
 <table on:pointerleave={() => currentHighlightedColumn = null}>
     <tr>
@@ -18,12 +33,35 @@
         {#each columns as column (column.id)}
         <th on:pointerenter={() => {currentHighlightedColumn = column.id}}
             class:isHovered={column.id === currentHighlightedColumn}>
+
+            <div class="cell-with-menu">
+            <Menu>
+                <ActionIcon slot="control" color="white">
+                    <DragHandleDots2 />
+                </ActionIcon>
+
+                <Menu.Label>New Column</Menu.Label>
+                <Menu.Item icon={PinLeft}
+                           on:click={() => tableContextState.addColumnBeforeAfter(column.id, true)}>Left</Menu.Item>
+                <Menu.Item icon={PinRight} on:click={() => tableContextState.addColumnBeforeAfter(column.id, false)}>Right</Menu.Item>
+
+                <Divider />
+
+                <Menu.Label>Danger zone</Menu.Label>
+                <Menu.Item color="red" icon={Trash}
+                           on:click={() => askRemoveColumn(column.id)}
+                            >Remove</Menu.Item>
+            </Menu>
+
             <LabelEditable data={column.label}
                            on:update={(newData) => {tableContextState.editColumn(column.id, newData.detail)}} />
+            </div>
         </th>
         {/each}
         <th>
-            <button on:click={() => tableContextState.addColumn()}>New Column</button>
+            <ActionIcon color="white" on:click={() => tableContextState.addColumn()}>
+                <Plus />
+            </ActionIcon>
         </th>
     </tr>
 
@@ -31,8 +69,30 @@
 
     <tr>
         <td on:pointerenter={() => {currentHighlightedColumn = null}}>
-            <LabelEditable data={row.label}
-                           on:update={(newData) => tableContextState.editRow(row.id, newData.detail)} />
+            <div class="cell-with-menu">
+                <Menu zIndex={2}>
+                    <ActionIcon slot="control" color="white">
+                        <DragHandleDots2 />
+                    </ActionIcon>
+
+                    <Menu.Label>New Row</Menu.Label>
+                    <Menu.Item icon={PinTop}
+                               on:click={() => tableContextState.addRowBeforeAfter(row.id, true)}>Above</Menu.Item>
+                    <Menu.Item icon={PinBottom} on:click={() => tableContextState.addRowBeforeAfter(row.id, false)}>Below</Menu.Item>
+
+                    <Divider />
+
+                    <Menu.Label>Danger zone</Menu.Label>
+                    <Menu.Item color="red" icon={Trash}
+                               on:click={() => askRemoveRow(row.id)}
+                    >Remove</Menu.Item>
+                </Menu>
+
+                <LabelEditable data={row.label}
+                               on:update={(newData) => tableContextState.editRow(row.id, newData.detail)} />
+
+             </div>
+
         </td>
         {#each columns as column (`${row.id}_${column.id}`)}
             <td on:pointerenter={() => {currentHighlightedColumn = column.id}}
@@ -45,9 +105,10 @@
     {/each}
 
     <tr>
-        <td colspan={$tableContextState.columns.length+1}>
-
-            <button on:click={() => tableContextState.addRow()}>New Row</button>
+        <td>
+            <ActionIcon color="white" on:click={() => tableContextState.addRow()}>
+                <Plus />
+            </ActionIcon>
         </td>
     </tr>
 </table>
@@ -56,6 +117,23 @@
   table {
     table-layout: fixed;
     background: var(--app-background)
+  }
+
+  .cell-with-menu {
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+
+    &:not(:hover) {
+
+      :global(.svelteui-Menu-root) {
+        // opacity: 0;
+      }
+    }
+
+    :global(.svelteui-Menu-root) {
+      white-space: normal;
+    }
   }
 
   table, th, td {
@@ -68,6 +146,7 @@
         top: 0;
         z-index: 2;
         background: var(--app-background);
+        white-space: nowrap;
 
         &:first-child {
           z-index: 3;

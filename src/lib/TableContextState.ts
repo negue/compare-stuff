@@ -1,17 +1,33 @@
 import { type Writable, writable } from "svelte/store";
-import type { TableContext } from "./TableContext";
-import {maxBy} from 'remeda'
+import type { Orderable, TableColumn, TableContext } from "./TableContext";
+import {maxBy, sortBy} from 'remeda'
 import { nanoid } from "nanoid";
 
 export interface TableContextState extends Writable<TableContext> {
   addColumn: (columnLabel?:string) => void;
+  addColumnBeforeAfter: (columnId: string, before: boolean) => void;
   removeColumn: (columnId: string) => void;
   editColumn: (columnId: string, newLabel: string) => void;
 
   removeRow: (rowId: string) => void;
   addRow: (rowLabel?:string) => void;
+  addRowBeforeAfter: (rowId: string, before: boolean) => void;
 
   editRow: (rowId: string, newLabel: string) => void;
+}
+
+// maybe there are smarter ways, open a PR if you have one xD
+function reorderListAfterNonIntegerOrder (list: Orderable[]) {
+  let currentOrder = 0;
+  let nonIntegerFound = false;
+  for (const orderable of sortBy(list, e => e.order)) {
+    if (Number.isInteger(orderable.order) && !nonIntegerFound) {
+      currentOrder = orderable.order;
+    } else {
+      nonIntegerFound = true;
+      orderable.order = ++currentOrder;
+    }
+  }
 }
 
 export function createTableContextState(tableContext?: TableContext): TableContextState {
@@ -33,6 +49,19 @@ export function createTableContextState(tableContext?: TableContext): TableConte
         id: nanoid(),
         label: columnLabel?? `Column ${highestOrder+1}`
       })
+
+      return value;
+    }),
+    addColumnBeforeAfter: (columnId:string, before: boolean) => update(value => {
+      const currentColumn: TableColumn = value.columns.find(c => c.id === columnId);
+
+      value.columns.push({
+        order: currentColumn.order + (before ? -0.5 : 0.5),
+        id: nanoid(),
+        label: `Column`
+      })
+
+      reorderListAfterNonIntegerOrder(value.columns);
 
       return value;
     }),
@@ -59,6 +88,20 @@ export function createTableContextState(tableContext?: TableContext): TableConte
         id: nanoid(),
         label: rowLabel??`Row ${highestOrder+1}`
       })
+
+      return value;
+    }),
+
+    addRowBeforeAfter: (rowId, before) => update(value => {
+      const currentRow = value.rows.find(r => r.id === rowId);
+
+      value.rows.push({
+        order: currentRow.order  + (before ? -0.5 : 0.5),
+        id: nanoid(),
+        label: `Row`
+      })
+
+      reorderListAfterNonIntegerOrder(value.rows);
 
       return value;
     }),

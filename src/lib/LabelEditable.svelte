@@ -14,3 +14,9 @@
 
 
 <div contenteditable="true" on:input={onInput}>{data ?? ''}</div>
+
+<style lang="scss">
+    div {
+      //cursor: pointer;
+    }
+</style>
