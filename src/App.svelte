@@ -53,7 +53,7 @@
 </script>
 
 <div class="sidebar">
-  Sidebar <br>
+  Comparisons <br>
 
   <ul>
     {#each $listOfCompareStuff as compareStuff}
@@ -67,20 +67,26 @@
   <button on:click={addNew}>Add new</button>
 </div>
 
-<main>
 
+<main>
+<div class="header">
   {#if currentSelected}
-  <div>
+
     <h2>
       <LabelEditable data={currentSelected.label}
                      on:update={(newData) => {updateEntryLabel(currentSelected.id, newData.detail)}} />
     </h2>
 
+  {/if}
+</div>
+  <div class="overflow">
+  {#if currentSelected}
+
+
     <Table tableContextState={exampleTableState}></Table>
 
-  </div>
     {/if}
-
+  </div>
 </main>
 
 <style lang="scss">
@@ -109,6 +115,14 @@
   }
 
   main {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
+    flex: 1;
+  }
+
+  .overflow {
     overflow: auto;
   }
 
