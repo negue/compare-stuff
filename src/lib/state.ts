@@ -12,7 +12,7 @@ export const exampleTableState = createTableContextState();
 
 
 exampleTableState.subscribe(value => {
-  if (ignoreUpdate || !get(currentSelected)){
+  if (get(ignoreUpdate) || !get(currentSelected)){
     return;
   }
 
