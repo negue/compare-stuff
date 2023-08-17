@@ -2,7 +2,7 @@
     import * as R from 'remeda'
     import type { TableContextState } from "./TableContextState";
     import LabelEditable from "./LabelEditable.svelte";
-    import { ActionIcon, Divider, Menu, Text } from '@svelteuidev/core';
+    import { ActionIcon, Divider, Menu } from '@svelteuidev/core';
     import { Trash, DragHandleDots2, PinLeft, PinRight, PinTop, PinBottom, Plus } from 'radix-icons-svelte';
 
     export let tableContextState: TableContextState;
@@ -26,6 +26,28 @@
         tableContextState.removeRow(rowId);
       }
     }
+
+    type MenuType = typeof Menu["prototype"]
+    const menuWeakMap = new WeakMap<String, MenuType>();
+
+    let currentOpenedMenuOnRowId: string = '';
+    let lastOpenedMenu: MenuType;
+
+    function onAnyMenuOpen(menu: MenuType) {
+      if (lastOpenedMenu?.close) {
+        lastOpenedMenu.close();
+        lastOpenedMenu = null;
+      }
+
+      lastOpenedMenu = menu;
+    }
+
+    function onOpenRowMenu(menu: MenuType, rowId: string){
+       onAnyMenuOpen(menu);
+
+       currentOpenedMenuOnRowId = rowId;
+    }
+
 </script>
 <table on:pointerleave={() => currentHighlightedColumn = null}>
     <tr>
@@ -35,7 +57,8 @@
             class:isHovered={column.id === currentHighlightedColumn}>
 
             <div class="cell-with-menu">
-            <Menu>
+            <Menu bind:this={menuWeakMap[column.id]}
+                  on:open={() => onAnyMenuOpen(menuWeakMap[column.id])}>
                 <ActionIcon slot="control" color="white">
                     <DragHandleDots2 />
                 </ActionIcon>
@@ -68,9 +91,11 @@
     {#each rows as row (row.id)}
 
     <tr>
-        <td on:pointerenter={() => {currentHighlightedColumn = null}}>
+        <td on:pointerenter={() => {currentHighlightedColumn = null}}
+            style:z-index={currentOpenedMenuOnRowId === row.id ? 10 :1}>
             <div class="cell-with-menu">
-                <Menu zIndex={2}>
+                <Menu bind:this={menuWeakMap[row.id]}
+                      on:open={() => onOpenRowMenu(menuWeakMap[row.id], row.id)}>
                     <ActionIcon slot="control" color="white">
                         <DragHandleDots2 />
                     </ActionIcon>

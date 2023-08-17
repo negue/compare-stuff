@@ -61,6 +61,7 @@
 
   .overflow {
     overflow: auto;
+    flex: 1;
   }
 
 </style>
