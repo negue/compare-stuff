@@ -34,7 +34,7 @@
     let lastOpenedMenu: MenuType;
 
     function onAnyMenuOpen(menu: MenuType) {
-      if (lastOpenedMenu?.close) {
+      if (lastOpenedMenu?.close && lastOpenedMenu !== menu) {
         lastOpenedMenu.close();
         lastOpenedMenu = null;
       }
