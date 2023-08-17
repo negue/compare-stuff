@@ -8,7 +8,8 @@
     const entry = {
       id: nanoid(),
       label: 'New Comparison',
-      version: 1
+      version: 1,
+      emoji: '😉'
     }
 
     await addEntry(entry, {
@@ -36,7 +37,7 @@
         {#each $listOfCompareStuff as compareStuff}
             <li on:click={() => selectCurrentCompare(compareStuff)}
                 class:isActive={compareStuff.id === $currentSelected?.id}>
-                {compareStuff.label}
+                {compareStuff.emoji} {compareStuff.label}
             </li>
         {/each}
     </ul>

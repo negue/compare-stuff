@@ -1,23 +1,19 @@
 <script lang="ts">
   import Table from "./lib/Table.svelte";
-  import { createTableContextState } from "./lib/TableContextState";
   import {
-    addEntry,
-    type CompareStuffEntry,
-    getEntryTable,
-    listOfCompareStuff,
+   updateEntryEmoji,
     updateEntryLabel,
-    updateEntryTable
   } from "./lib/LocalState";
   import LabelEditable from "./lib/LabelEditable.svelte";
-  import { nanoid } from "nanoid";
   import { SvelteUIProvider } from "@svelteuidev/core";
   import Sidebar from "./lib/Sidebar.svelte";
   import { currentSelected, exampleTableState } from "./lib/state";
+  import EmojiPicker from "./lib/EmojiPicker.svelte";
 
 
 
 </script>
+
 
 <SvelteUIProvider withGlobalStyles themeObserver={'dark'}>
 
@@ -28,7 +24,10 @@
   {#if $currentSelected}
 
     <h2>
-      <LabelEditable data={$currentSelected.label}
+      <EmojiPicker selectedEmoji={$currentSelected.emoji}
+                   on:update={(newData) => {updateEntryEmoji($currentSelected.id, newData.detail)}}></EmojiPicker>
+
+      <LabelEditable data={$currentSelected.label} inlineBlock={true}
                      on:update={(newData) => {updateEntryLabel($currentSelected.id, newData.detail)}} />
     </h2>
 
@@ -47,10 +46,6 @@
 </SvelteUIProvider>
 
 <style lang="scss">
-
-
-
-
   main {
     display: flex;
     flex-direction: column;

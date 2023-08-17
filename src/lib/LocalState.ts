@@ -8,6 +8,7 @@ export interface CompareStuffEntry {
   id: string;
   version: number;
   label: string;
+  emoji: string;
 }
 
 export const listOfCompareStuff = writable<CompareStuffEntry[]>([])
@@ -41,6 +42,17 @@ export async function updateEntryLabel(entryId: string, newLabel: string) {
 
   saveEntries(entries);
 }
+
+export async function updateEntryEmoji(entryId: string, newEmoji: string) {
+  const entries = await listEntries();
+
+  var compareStuffEntry = entries.find(e => e.id === entryId);
+  compareStuffEntry.emoji = newEmoji;
+
+
+  saveEntries(entries);
+}
+
 
 export async function getEntryTable(entryId: string): Promise<TableContext> {
   await localforage.ready()

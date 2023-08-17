@@ -1,6 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
 
+    export let inlineBlock = false;
     export let data: string;
 
     const dispatch = createEventDispatcher();
@@ -13,7 +14,8 @@
 </script>
 
 
-<div contenteditable="true" on:input={onInput}>{data ?? ''}</div>
+<div contenteditable="true" on:input={onInput}
+     style:display={inlineBlock ? 'inline-block' : 'block'}>{data ?? ''}</div>
 
 <style lang="scss">
     div {
