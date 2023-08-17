@@ -5,7 +5,8 @@ export interface Orderable {
 
 export interface TableColumn extends Orderable{
   id: string;
-  label: string
+  label: string;
+  backgroundColor: string;
 }
 
 export interface TableRow extends Orderable{

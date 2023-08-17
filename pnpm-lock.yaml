@@ -11,6 +11,9 @@ dependencies:
   '@svelteuidev/core':
     specifier: 0.14.0
     version: 0.14.0(@svelteuidev/composables@0.14.0)(svelte@4.1.2)
+  emoji-picker-element:
+    specifier: 1.18.3
+    version: 1.18.3
   localforage:
     specifier: 1.10.0
     version: 1.10.0
@@ -23,6 +26,9 @@ dependencies:
   remeda:
     specifier: 1.24.0
     version: 1.24.0
+  vanilla-colorful:
+    specifier: ^0.7.2
+    version: 0.7.2
 
 devDependencies:
   '@sveltejs/vite-plugin-svelte':
@@ -505,6 +511,10 @@ packages:
     resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
     engines: {node: '>=8'}
     dev: true
+
+  /emoji-picker-element@1.18.3:
+    resolution: {integrity: sha512-tCRwVJOJU18OEcUlqyzWysJn6UEhei4/LBE9RNOJGuXva4uQFisrOGPhLoYn1osHrW5B9/bTgFRSQrPiraoGLA==}
+    dev: false
 
   /es6-promise@3.3.1:
     resolution: {integrity: sha512-SOp9Phqvqn7jtEUxPWdWfWoLmyt2VaJ6MpvP9Comy1MceMXqE6bxvaTu4iaxpYYPzhny28Lc+M87/c2cPK6lDg==}
@@ -1014,6 +1024,10 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
+
+  /vanilla-colorful@0.7.2:
+    resolution: {integrity: sha512-z2YZusTFC6KnLERx1cgoIRX2CjPRP0W75N+3CC6gbvdX5Ch47rZkEMGO2Xnf+IEmi3RiFLxS18gayMA27iU7Kg==}
+    dev: false
 
   /vite@4.4.9(sass@1.65.1):
     resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}

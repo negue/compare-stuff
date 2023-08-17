@@ -9,11 +9,7 @@
   import Sidebar from "./lib/Sidebar.svelte";
   import { currentSelected, exampleTableState } from "./lib/state";
   import EmojiPicker from "./lib/EmojiPicker.svelte";
-
-
-
 </script>
-
 
 <SvelteUIProvider withGlobalStyles themeObserver={'dark'}>
 
@@ -35,10 +31,7 @@
 </div>
   <div class="overflow">
   {#if $currentSelected}
-
-
     <Table tableContextState={exampleTableState}></Table>
-
     {/if}
   </div>
 </main>

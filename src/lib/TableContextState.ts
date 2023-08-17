@@ -7,7 +7,7 @@ export interface TableContextState extends Writable<TableContext> {
   addColumn: (columnLabel?:string) => void;
   addColumnBeforeAfter: (columnId: string, before: boolean) => void;
   removeColumn: (columnId: string) => void;
-  editColumn: (columnId: string, newLabel: string) => void;
+  editColumn: (columnId: string, updates: Partial<TableColumn>) => void;
 
   removeRow: (rowId: string) => void;
   addRow: (rowLabel?:string) => void;
@@ -65,10 +65,10 @@ export function createTableContextState(tableContext?: TableContext): TableConte
 
       return value;
     }),
-    editColumn: (columnId: string, newLabel: string) => update(value => {
+    editColumn: (columnId: string, updates: Partial<TableColumn>) => update(value => {
       const column = value.columns.find(column => column.id === columnId)
 
-      column.label = newLabel;
+      Object.assign(column, updates);
 
       return value;
     }),

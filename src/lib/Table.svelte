@@ -2,8 +2,9 @@
     import * as R from 'remeda'
     import type { TableContextState } from "./TableContextState";
     import LabelEditable from "./LabelEditable.svelte";
-    import { ActionIcon, Divider, Menu } from '@svelteuidev/core';
+    import { ActionIcon, Divider, Menu, Text } from '@svelteuidev/core';
     import { Trash, DragHandleDots2, PinLeft, PinRight, PinTop, PinBottom, Plus } from 'radix-icons-svelte';
+    import ColorPicker from "./ColorPicker.svelte";
 
     export let tableContextState: TableContextState;
 
@@ -54,10 +55,12 @@
         <th>&nbsp;</th>
         {#each columns as column (column.id)}
         <th on:pointerenter={() => {currentHighlightedColumn = column.id}}
-            class:isHovered={column.id === currentHighlightedColumn}>
+            class:isHovered={column.id === currentHighlightedColumn}
+            style:background-color={column.backgroundColor}>
 
             <div class="cell-with-menu">
             <Menu bind:this={menuWeakMap[column.id]}
+                  closeOnItemClick={false}
                   on:open={() => onAnyMenuOpen(menuWeakMap[column.id])}>
                 <ActionIcon slot="control" color="white">
                     <DragHandleDots2 />
@@ -70,6 +73,19 @@
 
                 <Divider />
 
+                <Menu.Label>Background of Column</Menu.Label>
+                <Menu.Item  >
+                    <ColorPicker
+                            color={column.backgroundColor}
+                            on:update={(newData) => {tableContextState.editColumn(column.id, {backgroundColor: newData.detail})}}></ColorPicker>
+
+                    <svelte:fragment slot='rightSection'>
+                        <Text size="xs" on:click={() => tableContextState.editColumn(column.id, {backgroundColor: undefined})}>Clear</Text>
+                    </svelte:fragment>
+                </Menu.Item>
+                <Divider />
+
+
                 <Menu.Label>Danger zone</Menu.Label>
                 <Menu.Item color="red" icon={Trash}
                            on:click={() => askRemoveColumn(column.id)}
@@ -77,7 +93,7 @@
             </Menu>
 
             <LabelEditable data={column.label}
-                           on:update={(newData) => {tableContextState.editColumn(column.id, newData.detail)}} />
+                           on:update={(newData) => {tableContextState.editColumn(column.id, {label: newData.detail})}} />
             </div>
         </th>
         {/each}
@@ -121,7 +137,8 @@
         </td>
         {#each columns as column (`${row.id}_${column.id}`)}
             <td on:pointerenter={() => {currentHighlightedColumn = column.id}}
-                class:isHovered={column.id === currentHighlightedColumn}>
+                class:isHovered={column.id === currentHighlightedColumn}
+                style:background-color={column.backgroundColor}>
                 <LabelEditable bind:data={$tableContextState.cells[`${row.id}_${column.id}`]}></LabelEditable>
             </td>
         {/each}
